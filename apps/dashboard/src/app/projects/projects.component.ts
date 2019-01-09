@@ -3,7 +3,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Customer, Project, ProjectsService, NotificationsService, CustomersService, ProjectState, CreateProject, UpdateProject, DeleteProject, LoadProjects, initialProjects } from '@workshop/core-data';
-import { selectAllProjects } from 'libs/core-data/src/lib/state';
+import { selectAllProjects, getError } from 'libs/core-data/src/lib/state';
+
 const emptyProject: Project = {
   id: null,
   title: '',
@@ -20,6 +21,8 @@ const emptyProject: Project = {
 })
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
+  error$: Observable<string>;
+  
   customers$: Observable<Customer[]>;
   currentProject: Project;
 
@@ -53,10 +56,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
-    this.store.dispatch(new LoadProjects(initialProjects));
+    this.store.dispatch(new LoadProjects());
 
     this.projects$ = this.store.pipe(
       select(selectAllProjects)
+    );
+
+    this.error$ = this.store.pipe(
+      select(getError)
     )
   }
 

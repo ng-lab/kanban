@@ -1,5 +1,8 @@
 <div class="container">
   <div class="col-50">
+    <ng-container *ngIf="error$">
+        <p>{{ error$ | async }}</p>
+    </ng-container>
     <app-projects-list
       [projects]="projects$ | async"
       (selected)="selectProject($event)"

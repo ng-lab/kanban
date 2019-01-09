@@ -32,5 +32,5 @@ export const selectProjectState = createFeatureSelector<fromProjects.ProjectStat
 export const selectAllProjects = createSelector(selectProjectState, fromProjects.selectAllProjectsState);
 export const selectAllProjectIds = createSelector(selectProjectState, fromProjects.selectProjectIdsState);
 export const selectAllProjectEntities = createSelector(selectProjectState, fromProjects.selectProjectEntitiesState);
-
+export const getError = createSelector(selectProjectState, fromProjects.errorState);
 

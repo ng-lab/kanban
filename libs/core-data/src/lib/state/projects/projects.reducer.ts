@@ -38,6 +38,7 @@ const deleteProject = (projects, project) => projects.filter(w => project.id !==
 // 1 Define State
 export interface ProjectState extends EntityState<Project> {
   selectedProjectId: number | null;
+  error: null;
 }
 
 // 2. Creating Adapter
@@ -45,14 +46,21 @@ export const adapter: EntityAdapter<Project> = createEntityAdapter<Project>();
 
 // 3. Define Initial State
 export const intialProjectState:ProjectState = adapter.getInitialState({
-  selectedProjectId: null
+  selectedProjectId: null,
+  error: null
 })
 
 // Define Reducer
 export function projectReducer(state=intialProjectState, action): ProjectState {
   switch(action.type) {
-    case ProjectActionsTypes.loadProjects: {
+
+    case ProjectActionsTypes.LOAD_PROJECTS_SUCCESS: {
       return adapter.addMany(action.payload, state);
+    }
+
+    case ProjectActionsTypes.LOAD_PROJECTS_FAIL: {
+      debugger;
+      return {...state, error: action.payload};
     }
 
     case ProjectActionsTypes.selectProject: {
@@ -75,9 +83,9 @@ export function projectReducer(state=intialProjectState, action): ProjectState {
 
 // selectors
 export const selectedProjectId = (state: ProjectState) => state.selectedProjectId;
+export const errorState = (state: ProjectState) => state.error;
 
 const {selectIds, selectEntities, selectAll} = adapter.getSelectors();
-
 export const selectProjectIdsState = selectIds;
 export const selectProjectEntitiesState = selectEntities;
 export const selectAllProjectsState = selectAll;
