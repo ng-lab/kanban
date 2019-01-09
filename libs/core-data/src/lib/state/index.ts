@@ -23,4 +23,14 @@ export const selectAllCustomers = createSelector(
   fromCustomers.selectAllCustomers
 );
 
+// -------------------------------------------------------------------
+// PROJECT SELECTORS
+// -------------------------------------------------------------------
+
+export const selectProjectState = createFeatureSelector<fromProjects.ProjectState>('projects');
+
+export const selectAllProjects = createSelector(selectProjectState, fromProjects.selectAllProjectsState);
+export const selectAllProjectIds = createSelector(selectProjectState, fromProjects.selectProjectIdsState);
+export const selectAllProjectEntities = createSelector(selectProjectState, fromProjects.selectProjectEntitiesState);
+
 

@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Customer, Project, ProjectsService, NotificationsService, CustomersService, ProjectState, CreateProject, UpdateProject, DeleteProject, LoadProjects, initialProjects } from '@workshop/core-data';
+import { selectAllProjects } from 'libs/core-data/src/lib/state';
 const emptyProject: Project = {
   id: null,
   title: '',
@@ -53,10 +54,9 @@ export class ProjectsComponent implements OnInit {
 
   getProjects() {
     this.store.dispatch(new LoadProjects(initialProjects));
+
     this.projects$ = this.store.pipe(
-      select('projects'),
-      map((projectState: ProjectState) => projectState.entities),
-      map(projects => Object.keys(projects).map(id => projects[id]))
+      select(selectAllProjects)
     )
   }
 
